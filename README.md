@@ -7,3 +7,5 @@ The metadata filter adds the following data into the body of the log.
 -labels
 -host
 -container name
+
+For more information on the filter or to see a list of configuration options: https://github.com/fabric8io/fluent-plugin-kubernetes_metadata_filter

@@ -1,7 +1,7 @@
 FROM fluent/fluentd:latest-onbuild
 MAINTAINER YOUR_NAME <leahnpetersen@gmail.com>
-WORKDIR /home/fluent
-ENV PATH /home/fluent/.gem/ruby/2.3.0/bin:$PATH
+WORKDIR ../home/fluent
+ENV PATH ../home/fluent/.gem/ruby/2.3.0/bin:$PATH
 
 USER root
 RUN apk --no-cache --update add sudo build-base ruby-dev && \
@@ -18,4 +18,4 @@ RUN apk --no-cache --update add sudo build-base ruby-dev && \
 EXPOSE 24284
 
 USER root
-CMD exec fluentd -c /fluentd/etc/$FLUENTD_CONF -p /fluentd/plugins $FLUENTD_OPT
+CMD exec fluentd -c ../fluentd/etc/$FLUENTD_CONF -p ../fluentd/plugins $FLUENTD_OPT

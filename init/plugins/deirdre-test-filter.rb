@@ -28,9 +28,7 @@ module Fluent
         new_es.add(time, record)
       }
 
-      end
-
-        return new_es
+      return new_es
     end
 
 

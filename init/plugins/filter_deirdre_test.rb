@@ -6,24 +6,37 @@ module Fluent
 
     def configure(conf)
       super
-      # do the usual configuration here
     end
 
     def start
       super
-      # This is the first method to be called when it starts running
-      # Use it to allocate resources, etc.
     end
+
+#filter_stream method from fluentd writing plugins page
+#     def filter_stream(tag, es)
+#       new_es = MultiEventStream.new
+#       es.each { |time, record|
+#         begin
+#          filtered_record = filter(tag, time, record)
+#        new_es.add(time, filtered_record) if filtered_record
+#      rescue => e
+#         router.emit_error_event(tag, time, record, e)
+#      end
+#       }
+#   new_es
+# end
 
 
     def filter_stream(tag, es)
       new_es =  MultiEventStream.new
 
       es.each {|time, record|
-        record['hatchimal'] = {
-          'id' => "my unique id",
-          'name' => "hatch this animal",
-          'testcase' => "this is working"
+        d = Dir.entries(".")
+        record['uniquestring'] = {
+          'id' => 'my unique id',
+          'name' => 'hatch this animal',
+          'testcase' => 'this is working',
+          'filepath' => d
         }
         new_es.add(time, record)
       }

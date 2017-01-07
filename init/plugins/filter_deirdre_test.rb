@@ -31,7 +31,7 @@ module Fluent
       new_es =  MultiEventStream.new
 
       es.each {|time, record|
-        d = Dir.entries("/var/log/containers")
+        d = Dir.entries("/var/log/containers/*")
         record['uniquestring'] = {
           'id' => 'my unique id',
           'name' => 'hatch this animal',

@@ -26,19 +26,25 @@ module Fluent
 #   new_es
 # end
 
+    def get_log_path(arr)
+      arr.each do |f|
+       if !f.match /.log\z/
+        return f
+       end
+    end
+
 
     def filter_stream(tag, es)
       new_es =  MultiEventStream.new
+      d = Dir.entries("/var/log/containers/")
+      filepath = get_log_path(d)
 
       es.each {|time, record|
-        d = Dir.entries("/var/log/containers/")
-        test_path = $PATH
         record['uniquestring'] = {
           'id' => 'my unique id',
           'name' => 'hatch this animal',
           'testcase' => 'this is working',
-          'filepath' => d,
-          'second_path' => test_path
+          'filepath' => filepath,
         }
         new_es.add(time, record)
       }

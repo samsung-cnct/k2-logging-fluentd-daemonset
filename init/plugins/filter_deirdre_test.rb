@@ -34,19 +34,29 @@ module Fluent
       end
     end
 
+    def get_file(arr)
+      arr.each do |f|
+        if !f.match /\A\./
+          return f
+        end
+      end
+    end
+
 
     def filter_stream(tag, es)
       new_es =  MultiEventStream.new
       files = Dir.entries("/var/log/containers/")
-      filepath = get_log_path(files)
+      all_files = get_log_path(files)
+      filename = get_file(all_files)
       log_file = Dir.entries("/var/log/containers/#{filepath}")
 
       es.each {|time, record|
         record['uniquestring'] = {
           'name' => 'hatch this animal',
           'files' => files,
-          'path' => filepath,
-          'log-file' => log_file
+          'all_files' => all_files,
+          'filename' => filename,
+          'log_file' => log_file
         }
         new_es.add(time, record)
       }

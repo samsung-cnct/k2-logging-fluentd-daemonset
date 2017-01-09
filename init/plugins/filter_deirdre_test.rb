@@ -12,21 +12,7 @@ module Fluent
       super
     end
 
-#filter_stream method from fluentd writing plugins page
-#     def filter_stream(tag, es)
-#       new_es = MultiEventStream.new
-#       es.each { |time, record|
-#         begin
-#          filtered_record = filter(tag, time, record)
-#        new_es.add(time, filtered_record) if filtered_record
-#      rescue => e
-#         router.emit_error_event(tag, time, record, e)
-#      end
-#       }
-#   new_es
-# end
-
-    def get_log_path(arr)
+    def get_log_directory(arr)
       arr.each do |f|
        if (!f.match /.log\z/) && (!f.match /\A\./)
         return f
@@ -34,7 +20,7 @@ module Fluent
       end
     end
 
-    def get_file(arr)
+    def get_filename(arr)
       arr.each do |f|
         if !f.match /\A\./
           return f
@@ -46,15 +32,17 @@ module Fluent
     def filter_stream(tag, es)
       new_es =  MultiEventStream.new
       entries = Dir.entries("/var/log/containers/")
-      filepath = get_log_path(entries)
+      filepath = get_log_directory(entries)
       log_file = Dir.entries("/var/log/containers/#{filepath}")
-      filename = get_file(log_file)
+      filename = get_filename(log_file)
+      regexed_tag = .scan (/[^named.var.containers.]\S+/)
+
 
       es.each {|time, record|
         record['uniquestring'] = {
           'name' => 'hatch',
           'filepath' => "/#{filepath}/#{filename}",
-          'tag' => tag
+          'tag' => regexed_tag
         }
         new_es.add(time, record)
       }

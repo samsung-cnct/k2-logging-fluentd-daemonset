@@ -28,7 +28,7 @@ module Fluent
 
     def get_log_path(arr)
       arr.each do |f|
-       if !f.match /.log\z/ && !f.match /^./
+       if !f.match /.log\z/ && !f.match /\A\./
         return f
        end
       end

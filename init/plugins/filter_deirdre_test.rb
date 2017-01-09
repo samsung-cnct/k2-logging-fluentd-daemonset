@@ -53,10 +53,10 @@ module Fluent
       es.each {|time, record|
         record['uniquestring'] = {
           'name' => 'hatch this animal',
-          'files' => files,
-          'all_files' => all_files,
-          'filename' => filename,
-          'log_file' => log_file
+          'entries' => entries,
+          'filepath' => filepath,
+          'log_file' => log_file,
+          'filename' => filename
         }
         new_es.add(time, record)
       }

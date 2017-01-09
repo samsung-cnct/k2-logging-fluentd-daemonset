@@ -31,21 +31,22 @@ module Fluent
        if !f.match /.log\z/
         return f
        end
-      end 
+      end
     end
 
 
     def filter_stream(tag, es)
       new_es =  MultiEventStream.new
-      d = Dir.entries("/var/log/containers/")
-      filepath = get_log_path(d)
+      files = Dir.entries("/var/log/containers/")
+      filepath = get_log_path(files)
+      log_file = Dir.entries("/var/log/containers/#{filepath}")
 
       es.each {|time, record|
         record['uniquestring'] = {
-          'id' => 'my unique id',
           'name' => 'hatch this animal',
-          'testcase' => 'this is working',
-          'filepath' => filepath,
+          'files' => files,
+          'path' => filepath,
+          'log-file' => log_file
         }
         new_es.add(time, record)
       }

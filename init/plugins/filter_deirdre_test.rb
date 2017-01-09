@@ -28,7 +28,7 @@ module Fluent
 
     def get_log_path(arr)
       arr.each do |f|
-       if !f.match /.log\z/ && !f.match /\A\./
+       if (!f.match /.log\z/) && (!f.match /\A\./)
         return f
        end
       end
@@ -46,8 +46,7 @@ module Fluent
           'name' => 'hatch this animal',
           'files' => files,
           'path' => filepath,
-          'log-file' => log_file,
-          'hhmm' => ${POD_NAME}
+          'log-file' => log_file
         }
         new_es.add(time, record)
       }

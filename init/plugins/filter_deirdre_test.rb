@@ -35,14 +35,14 @@ module Fluent
       filepath = get_log_directory(entries)
       log_file = Dir.entries("/var/log/containers/#{filepath}")
       filename = get_filename(log_file)
-      regexed_tag = .scan (/[^named.var.containers.]\S+/)
+      regexed_tag = tag.scan (/[^named.var.containers.]\S+/)
 
 
       es.each {|time, record|
         record['uniquestring'] = {
           'name' => 'hatch',
           'filepath' => "/#{filepath}/#{filename}",
-          'tag' => regexed_tag
+          'tag' => regexed_tag[0]
         }
         new_es.add(time, record)
       }

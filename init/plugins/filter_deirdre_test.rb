@@ -31,6 +31,7 @@ module Fluent
        if !f.match /.log\z/
         return f
        end
+      end 
     end
 
 

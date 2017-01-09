@@ -55,6 +55,7 @@ module Fluent
           'name' => 'hatch',
           'filepath' => "/#{filepath}/#{filename}",
           'tag' => tag
+        }
         new_es.add(time, record)
       }
 

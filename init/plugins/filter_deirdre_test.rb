@@ -43,9 +43,12 @@ module Fluent
 
       es.each {|time, record|
         record['uniquestring'] = {
-          'name' => 'hatch',
-          'filepath' => "/#{filepath}/#{filename}",
-          'tag' => tag_regex
+          'name'            => 'hatch',
+          'filepath'        => "/#{filepath}/#{filename}",
+          'tag'             => tag_regex,
+          'kube_namespace'  => "#{ENV['POD_NAMESPACE']}",
+          'kube_pod_name'   => "#{ENV['POD_NAME']}",
+          'KUBE_POD_IP'     => "#{ENV['POD_IP']}"
         }
         new_es.add(time, record)
       }

@@ -52,8 +52,8 @@ module Fluent
           'name'            => 'hatch'
         }
         record['kube'] = {
-          'tag'       => tag
-          'tag_path'  => tag_path
+          'tag'       => tag,
+          'tag_path'  => tag_path,
           'name'      => pod_name,
           'namespace' => pod_namespace,
           'ip'        => pod_ip

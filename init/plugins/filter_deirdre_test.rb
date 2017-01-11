@@ -43,15 +43,17 @@ module Fluent
       # str = "named.var.log.containers.log-generator_default_10.128.76.4.all_logs.txt"
 
       tag_path = tag.gsub "named.var.log.containers.", ''
-      tag_path == "log-generator_default_10.128.76.4.all_logs.txt"
-      arry = tag_path.scan /[^_]+/
+      # tag_path == "log-generator_default_10.128.76.4.all_logs.txt"
+      # arry = tag_path.scan /[^_]+/
       /(?<pod_name>[^_]+)_(?<pod_namespace>[^_]+)_(?<pod_ip>\d+\.\d+\.\d+\.\d+)/ =~ tag_path
 
       es.each {|time, record|
         record['named_file_info'] = {
           'name'            => 'hatch'
         }
-        record['kubernetes'] = {
+        record['kube'] = {
+          'tag'       => tag
+          'tag_path'  => tag_path
           'name'      => pod_name,
           'namespace' => pod_namespace,
           'ip'        => pod_ip

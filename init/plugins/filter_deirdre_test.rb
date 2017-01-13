@@ -14,20 +14,18 @@ module Fluent
 
     def filter_stream(tag, es)
       new_es =  MultiEventStream.new
-
+      
+      #'named' is current tag set in fluent.conf
+      # if tag is changed, tag_path will need to change to match
       tag_path = tag.gsub "named.var.log.containers.", ''
       /(?<pod_name>[^_]+)_(?<pod_namespace>[^_]+)_(?<pod_ip>\d+\.\d+\.\d+\.\d+)/ =~ tag_path
+      /(?<folder>[^_]+_[^_]+_\d+\.\d+\.\d+\.\d+)\.(?<filename>.+)/ =~ tag_path
+      filepath = "/#{folder}/#{filename}"
 
       es.each {|time, record|
         record['named_file_info'] = {
-          'name' => 'hatch'
-        }
-        record['dkube'] = {
-          'tag'       => tag,
-          'tag_path'  => tag_path,
-          'name'      => pod_name,
-          'namespace' => pod_namespace,
-          'ip'        => pod_ip
+          'filepath' => filepath,
+          'filename' => filename
         }
         new_es.add(time, record)
       }

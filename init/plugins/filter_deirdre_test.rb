@@ -18,8 +18,8 @@ module Fluent
       #'named' is current tag set in fluent.conf
       # if tag is changed, tag_path will need to change to match
       tag_path = tag.gsub "named.var.log.containers.", ''
-      /(?<pod_name>[^_]+)_(?<pod_namespace>[^_]+)_(?<pod_ip>\d+\.\d+\.\d+\.\d+)/ =~ tag_path
-      /(?<folder>[^_]+_[^_]+_\d+\.\d+\.\d+\.\d+)_unknown_unknown\.(?<filename>.+)/ =~ tag_path
+      # /(?<pod_name>[^_]+)_(?<pod_namespace>[^_]+)_(?<pod_ip>\d+\.\d+\.\d+\.\d+)/ =~ tag_path
+      /(?<folder>[^_]+_[^_]+_\d+\.\d+\.\d+\.\d+_unknown_unknown)\.(?<filename>.+)/ =~ tag_path
       filepath = "/#{folder}/#{filename}"
 
       es.each {|time, record|

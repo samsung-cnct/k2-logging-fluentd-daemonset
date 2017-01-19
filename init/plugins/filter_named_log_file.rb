@@ -1,3 +1,9 @@
+
+
+# FluentD filter meant for use with non-standard logfile collection
+# This filter will enrich event metadata with the filename and filepath of the named-logfile 
+
+
 require 'fluent/filter'
 
 module Fluent

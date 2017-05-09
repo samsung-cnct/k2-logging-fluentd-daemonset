@@ -45,11 +45,21 @@ sudo apk add procps && \
 ```
 On line 14 of your Dockerfile. 
 
-Rebuild your docker image and redeploy the daemonset. The script will run, you can stress-test your logging system and when you want to examine the data you can pipe the logs from your daemonsets into a file (on your local machine)
+Rebuild your docker image and redeploy the daemonset. The script will run, you can stress-test your logging system and when you want to examine the data you can pipe the logs from your daemonsets into a file (on your local machine) with:
 
-Grep the file for your metrics with `$ grep "\[metrics\]" <logs from container> | cut -d" " -f2,3 > <clean.dat>`. You will have two columns, CPU & MEM, which you can graph or pinpoint peak usage related to your stress testing. 
+```
+$ kubectl logs fluentd-daemon-example >> logs.dat
+```
+
+Grep the file for your metrics with:
+
+```
+$ grep "\[metrics\]" <logs.dat> | cut -d" " -f2,3 > <clean.dat>
+```
+
+You will have two columns, CPU & MEM, which you can graph or pinpoint peak usage related to your stress testing. 
 
 GNUPLOT is an easy way to quickly visualize the data. Start GNUPLOT (install if necessary) and run: 
 
 `gnuplot> plot '<clean.dat>' using 1 with lines` for CPU usage
-`gnuplot> plot '<clean.dat>' using 1 with lines` for MEM usage
+`gnuplot> plot '<clean.dat>' using 2 with lines` for MEM usage

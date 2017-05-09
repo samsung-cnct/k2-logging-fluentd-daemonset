@@ -3,7 +3,7 @@
 # start fluentd and monitor resource consumption
 fluentd -c /fluentd/etc/fluent.conf -p /fluentd/plugins &
 
-# start monitoring fluentd fluentd runs in two processes
+# start monitoring fluentd, fluentd runs in two processes
 # one process keeps the same PID the other process 
 # starts/restarts resulting in different PIDS this script
 # grabs both running processes and adds the numbers together 

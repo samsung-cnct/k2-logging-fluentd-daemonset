@@ -27,7 +27,7 @@ For more information on the filter or to see a list of configuration options: ht
 This filter will add the filename and filepath to the event metadata.
 Requires setup of shared-logging-directory: https://github.com/samsung-cnct/shared-logging-directory
 
-#### Monitor Resource Consumption in Container
+## Monitor Resource Consumption in Container
 
 There is an optional script in the init directory to monitor resource usage for Fluentd running in your cluster. By modifying your Dockerfile the script will pull CPU and memory consumption constantly. To use the script, remove the last two lines of the Dockerfile (located in the init directory) and add:
 

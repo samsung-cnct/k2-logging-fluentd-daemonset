@@ -27,25 +27,15 @@ For more information on the filter or to see a list of configuration options: ht
 This filter will add the filename and filepath to the event metadata.
 Requires setup of shared-logging-directory: https://github.com/samsung-cnct/shared-logging-directory
 
-#### Monitor Resource Consumption in Container
+## Monitor Resource Consumption in Container
 
-There is an optional script in the init directory to monitor resource usage for Fluentd running in your cluster. By modifying your Dockerfile the script will pull CPU and memory consumption constantly. To use the script, remove the last two lines of the Dockerfile (located in the init directory) and add:
+There is an optional script in the init directory to monitor resource usage for Fluentd running in your cluster. By modifying your Dockerfile the script will pull CPU and memory consumption constantly. To use the script, replace the last line in the Dockerfile with:
 
 ```
-COPY start.sh /
-RUN ["chmod", "+x", "/start.sh"]
-
-USER root
 CMD ["/start.sh"]
 ```
 
-Also add:
-```
-sudo apk add procps && \
-```
-On line 14 of your Dockerfile. 
-
-Rebuild your docker image and redeploy the daemonset. The script will run, you can stress-test your logging system and when you want to examine the data you can pipe the logs from your daemonsets into a file (on your local machine) with:
+Rebuild your docker image and redeploy the daemonset with new docker image. The script will run, you can stress-test your logging system and when you want to examine the data you can pipe the logs from your daemonsets into a file (on your local machine) with:
 
 ```
 $ kubectl logs fluentd-daemon-example >> logs.dat

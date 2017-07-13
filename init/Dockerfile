@@ -4,8 +4,6 @@ WORKDIR /home/fluent
 ENV PATH /home/fluent/.gem/ruby/2.3.0/bin:$PATH
 
 USER root
-# add -s /bin/sh if necessary
-RUN adduser -S fluent
 RUN apk --no-cache --update add sudo build-base ruby-dev && \
 
     gem install fluent-plugin-secure-forward \
@@ -15,7 +13,7 @@ RUN apk --no-cache --update add sudo build-base ruby-dev && \
                 fluent-plugin-kubernetes_metadata_filter && \
     sudo apk add procps && \
 
-    rm -rf /home/fluent/.gem/ruby/2.3.0/cache/*.gem && sudo -u fluent gem sources -c && \
+    sudo gem sources -c && \
     apk del sudo build-base ruby-dev && rm -rf /var/cache/apk/*
 
 EXPOSE 24284
